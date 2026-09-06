@@ -52,7 +52,7 @@ A Space can be personal or shared.
 
 **Shared Space**
 
-> Mikee & Partner
+> Mikee & Tan
 
 ### Core Features
 
@@ -81,7 +81,7 @@ A Space can be personal or shared.
 
 A Shared Space can track:
 Mikee GCash
-Partner GCash
+Tan GCash
 
 without treating those accounts as jointly owned.
 
@@ -142,7 +142,7 @@ Examples:
 Mikee
 └── GCash
      ├── Mikee Personal
-     └── Mikee & Partner
+     └── Mikee & Tan
 
 Both Spaces refer to the **same GCash account**.
 
@@ -466,7 +466,7 @@ Mikee Personal
 
 shows personal financial activity.
 Switch to:
-Mikee & Partner
+Mikee & Tan
 
 and the dashboard shows shared financial activity.
 
@@ -561,7 +561,7 @@ Mikee GCash
      ├── Mikee Personal
      │      └── Coffee ₱200
      │
-     └── Mikee & Partner
+     └── Mikee & Tan
             └── Groceries ₱2,000
 
 ### Business Rules
@@ -603,7 +603,7 @@ Cash
 
 A Space determines **where the financial activity is being tracked**.
 Mikee Personal
-Mikee & Partner
+Mikee & Tan
 
 ---
 
