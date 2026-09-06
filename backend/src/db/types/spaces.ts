@@ -1,17 +1,26 @@
-import { Generated, Insertable, Selectable, Updateable } from 'kysely';
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+} from 'kysely';
+
+export type SpaceType = 'personal' | 'shared';
+export type SpaceRole = 'owner' | 'member';
 
 export interface SpacesTable {
   id: Generated<number>;
   name: string;
-  space_type: string;
+  space_type: SpaceType;
   created_by_user_id: number;
-  created_at: Date;
+  created_at: ColumnType<Date, string | undefined, never>;
 }
 
 export interface SpaceMembersTable {
   space_id: number;
   user_id: number;
-  role: string;
+  role: SpaceRole;
 }
 
 export interface SpaceAccountsTable {

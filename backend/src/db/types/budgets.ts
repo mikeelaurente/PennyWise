@@ -1,11 +1,17 @@
-import { Generated, Insertable, Selectable, Updateable } from 'kysely';
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+} from 'kysely';
 
 export interface BudgetsTable {
   id: Generated<number>;
   space_id: number;
   month: number;
   year: number;
-  created_at: Date;
+  created_at: ColumnType<Date, string | undefined, never>;
 }
 
 export interface BudgetCategoriesTable {

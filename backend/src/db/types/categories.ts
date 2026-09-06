@@ -1,12 +1,20 @@
-import { Generated, Insertable, Selectable, Updateable } from 'kysely';
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+} from 'kysely';
+
+export type CategoryType = 'income' | 'expense';
 
 export interface CategoriesTable {
   id: Generated<number>;
   space_id: number;
   name: string;
-  type: string;
+  type: CategoryType;
   is_default: boolean;
-  created_at: Date;
+  created_at: ColumnType<Date, string | undefined, never>;
 }
 
 export type Category = Selectable<CategoriesTable>;

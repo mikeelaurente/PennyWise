@@ -1,4 +1,12 @@
-import type { Generated, Insertable, Selectable, Updateable } from 'kysely';
+import type {
+  ColumnType,
+  Generated,
+  Insertable,
+  Selectable,
+  Updateable,
+} from 'kysely';
+
+export type SavingsGoalType = 'withdrawal' | 'deposit';
 
 export interface SavingsGoalsTable {
   id: Generated<number>;
@@ -6,17 +14,17 @@ export interface SavingsGoalsTable {
   name: string;
   target_amount: string;
   target_date: Date;
-  created_at: Date;
+  created_at: ColumnType<Date, string | undefined, never>;
 }
 
 export interface SavingsGoalTransactionsTable {
   id: Generated<number>;
   savings_goal_id: number;
   amount: string;
-  type: string;
+  type: SavingsGoalType;
   date: Date;
   description: string;
-  created_at: Date;
+  created_at: ColumnType<Date, string | undefined, never>;
 }
 
 export type SavingsGoal = Selectable<SavingsGoalsTable>;
