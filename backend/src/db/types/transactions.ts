@@ -17,7 +17,7 @@ export interface TransactionsTable {
   amount: string;
   type: TransactionType;
   date: Date;
-  description: string;
+  description: string | null;
   created_at: ColumnType<Date, string | undefined, never>;
 }
 

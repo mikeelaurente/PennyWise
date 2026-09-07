@@ -13,7 +13,7 @@ export interface CategoriesTable {
   space_id: number;
   name: string;
   type: CategoryType;
-  is_default: boolean;
+  is_default: ColumnType<boolean, boolean | undefined, boolean | undefined>;
   created_at: ColumnType<Date, string | undefined, never>;
 }
 

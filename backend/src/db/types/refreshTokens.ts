@@ -12,7 +12,11 @@ export interface RefreshTokensTable {
   token_hash: string;
   expires_at: Date;
   created_at: ColumnType<Date, string | undefined, never>;
-  revoked_at: Date | null;
+  revoked_at: ColumnType<
+    Date | null,
+    Date | string | null,
+    Date | string | null
+  >;
 }
 
 export type RefreshToken = Selectable<RefreshTokensTable>;

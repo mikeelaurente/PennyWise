@@ -23,7 +23,11 @@ export interface AccountsTable {
   initial_balance: string;
   created_at: ColumnType<Date, string | undefined, never>;
   updated_at: ColumnType<Date, string | undefined, string | undefined>;
-  status: AccountStatus;
+  status: ColumnType<
+    AccountStatus,
+    AccountStatus | undefined,
+    AccountStatus | undefined
+  >;
 }
 
 export type Account = Selectable<AccountsTable>;
