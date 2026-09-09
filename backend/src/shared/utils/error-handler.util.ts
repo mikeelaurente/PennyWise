@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { ZodError } from "zod";
-import { AppError } from "./app-error.util.js";
+import { Request, Response, NextFunction } from 'express';
+import { ZodError } from 'zod';
+import { AppError } from './app-error.util.js';
 
 export const errorHandler = (
   err: unknown,
@@ -10,8 +10,8 @@ export const errorHandler = (
 ) => {
   if (err instanceof ZodError) {
     return res.status(400).json({
-      status: "validation_error",
-      message: "Validation error.",
+      status: 'validation_error',
+      message: 'Validation error.',
       errors: err.issues,
     });
   }
@@ -26,7 +26,7 @@ export const errorHandler = (
   console.error(err);
 
   return res.status(500).json({
-    status: "error",
-    message: "Internal server error.",
+    status: 'error',
+    message: 'Internal server error.',
   });
 };

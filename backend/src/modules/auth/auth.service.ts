@@ -1,16 +1,16 @@
-import type { RegisterInput } from "./auth.schema.js";
-import * as userRepository from "../../db/repositories/user.repository.js";
-import { AppError } from "../../shared/utils/app-error.util.js";
-import { compareHashed, hashValue } from "../../shared/utils/bcrypt.util.js";
-import type { LoginUserInput } from "./auth.schema.js";
-import * as jwtHelper from "../../shared/utils/jwt-helper.util.js";
+import type { RegisterInput } from './auth.schema.js';
+import * as userRepository from '../../db/repositories/user.repository.js';
+import { AppError } from '../../shared/utils/app-error.util.js';
+import { compareHashed, hashValue } from '../../shared/utils/bcrypt.util.js';
+import type { LoginUserInput } from './auth.schema.js';
+import * as jwtHelper from '../../shared/utils/jwt-helper.util.js';
 
 export async function registerUser(input: RegisterInput) {
   const email = input.email.trim().toLowerCase();
   const existingUser = await userRepository.findUserByEmail(email);
 
   if (existingUser) {
-    throw new AppError(409, "User already exists");
+    throw new AppError(409, 'User already exists');
   }
 
   const hashedPassword = await hashValue(input.password);
@@ -22,7 +22,7 @@ export async function registerUser(input: RegisterInput) {
   });
 
   if (!addUser) {
-    throw new AppError(500, "Failed to create user");
+    throw new AppError(500, 'Failed to create user');
   }
 
   const accessToken = await jwtHelper.generateToken(addUser.id);
@@ -41,7 +41,7 @@ export const getUser = async (id: number) => {
   const user = await userRepository.findUserById(id);
 
   if (!user) {
-    throw new AppError(404, "User not found");
+    throw new AppError(404, 'User not found');
   }
 
   return {
@@ -56,11 +56,11 @@ export const loginUser = async (userData: LoginUserInput) => {
   const user = await userRepository.findUserByEmail(email);
 
   if (!user) {
-    throw new AppError(404, "User not found");
+    throw new AppError(404, 'User not found');
   }
 
   if (!(await compareHashed(userData.password, user.password_hash))) {
-    throw new AppError(401, "Invalid credentials");
+    throw new AppError(401, 'Invalid credentials');
   }
 
   const accessToken = await jwtHelper.generateToken(user.id);

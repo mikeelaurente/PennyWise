@@ -1,23 +1,23 @@
 export default {
-  testEnvironment: "node",
-  extensionsToTreatAsEsm: [".ts"],
+  testEnvironment: 'node',
+  extensionsToTreatAsEsm: ['.ts'],
   transform: {
-    "^.+\\.tsx?$": [
-      "@swc/jest",
+    '^.+\\.tsx?$': [
+      '@swc/jest',
       {
         jsc: {
           parser: {
-            syntax: "typescript",
+            syntax: 'typescript',
           },
-          target: "es2022",
+          target: 'es2022',
         },
         module: {
-          type: "es6",
+          type: 'es6',
         },
       },
     ],
   },
   moduleNameMapper: {
-    "^(\\.{1,2}/.*)\\.js$": "$1",
+    '^(\\.{1,2}/.*)\\.js$': '$1',
   },
 };
