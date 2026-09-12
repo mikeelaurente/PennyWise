@@ -1,7 +1,7 @@
 import * as AccountRepository from '../../db/repositories/accounts.js';
+import { AccountFilter } from '../../db/types/accounts.js';
 import { AppError } from '../../shared/utils/app-error.util.js';
 import type {
-  AccountFilter,
   CreateAccountInput,
   AccountQueryParams,
   UpdateAccountInput,
@@ -10,9 +10,15 @@ import type {
 
 export const getAllAccounts = async (
   userId: number,
-  { status = 'active', page = 1, limit = 5, search = '' }: AccountQueryParams,
+  {
+    status = 'active',
+    types = undefined,
+    page = 1,
+    limit = 5,
+    search = '',
+  }: AccountQueryParams,
 ) => {
-  const filter: AccountFilter = { status };
+  const filter: AccountFilter = { status, types: undefined };
 
   if (search) {
     filter.search = search;

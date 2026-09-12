@@ -1,9 +1,7 @@
-import type {
-  AccountFilter,
-  UpdateAccountInput,
-} from '../../modules/accounts/account.schema.js';
+import type { UpdateAccountInput } from '../../modules/accounts/account.schema.js';
 
 import type {
+  AccountFilter,
   AccountStatus,
   AccountType,
   NewAccount,
@@ -37,6 +35,11 @@ export const getAllAccounts = async (
   if (filter.status) {
     query = query.where('accounts.status', '=', filter.status);
     countQuery = countQuery.where('accounts.status', '=', filter.status);
+  }
+
+  if (filter.types && filter.types.length > 0) {
+    query = query.where('accounts.account_type', 'in', filter.types);
+    countQuery = countQuery.where('accounts.account_type', 'in', filter.types);
   }
 
   const accounts = await query.limit(limit).offset(offset).execute();

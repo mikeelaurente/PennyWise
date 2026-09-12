@@ -40,6 +40,7 @@ export const updateAccountStatusSchema = z.object({
 export const accountQuerySchema = z.object({
   search: z.string().optional(),
   status: accountStatusSchema.default('active'),
+  types: accountTypeSchema.array().optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(90).default(10),
 });
@@ -59,12 +60,3 @@ export type UpdateAccountStatusInput = z.infer<
 export type AccountType = z.infer<typeof accountTypeSchema>;
 
 export type AccountQueryParams = z.infer<typeof accountQuerySchema>;
-
-export type AccountStatus = z.infer<typeof accountStatusSchema>;
-
-// Account status and filter types
-
-export type AccountFilter = {
-  search?: string;
-  status?: AccountStatus;
-};
