@@ -1,8 +1,7 @@
-import type { RegisterInput } from './auth.schema.js';
+import type { RegisterInput, LoginUserInput } from './auth.schema.js';
 import * as userRepository from '../../db/repositories/user.repository.js';
 import { AppError } from '../../shared/utils/app-error.util.js';
 import { compareHashed, hashValue } from '../../shared/utils/bcrypt.util.js';
-import type { LoginUserInput } from './auth.schema.js';
 import * as jwtHelper from '../../shared/utils/jwt-helper.util.js';
 
 export async function registerUser(input: RegisterInput) {
@@ -37,7 +36,7 @@ export async function registerUser(input: RegisterInput) {
   };
 }
 
-export const getUser = async (id: number) => {
+export const getMe = async (id: number) => {
   const user = await userRepository.findUserById(id);
 
   if (!user) {

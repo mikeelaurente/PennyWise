@@ -5,7 +5,7 @@ import { isAuthenticated } from '../../middleware/authorization.middleware.js';
 const router = Router();
 
 router.post('/register', AuthHandlers.registerUser);
-router.post('/login', AuthHandlers.logInUser);
-router.get('/me', isAuthenticated, AuthHandlers.getCurrentUser);
+router.post('/login', AuthHandlers.loginUser);
+router.get('/me', isAuthenticated, AuthHandlers.getMe);
 
 export default router;
