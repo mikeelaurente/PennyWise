@@ -1,0 +1,56 @@
+### Accounts API
+
+@hostname=localhost
+@port=5000
+@host={{hostname}}:{{port}}
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzg5MjAzMTU1LCJleHAiOjE3ODkyMDY3NTV9.iZeg43odwmBZPKh_md_mVQ94_74w8P32iyaJMdtoAFU
+
+### Create Account
+POST http://{{host}}/api/accounts
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Mikee Gcash",
+  "accountType": "e-wallet",
+  "initialBalance": "1000.00"
+}
+
+### Get All Accounts
+GET http://{{host}}/api/accounts?status=archived
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Get Account by ID
+GET http://{{host}}/api/accounts/1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update Account
+PATCH http://{{host}}/api/accounts/1
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Mikee Gcash Updated",
+  "accountType": "e-wallet",
+  "initialBalance": "2000.00"
+}
+
+### Update Account Status
+PATCH http://{{host}}/api/accounts/1/status
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "status": "active"
+}
+
+### Close Account
+PATCH http://{{host}}/api/accounts/1/status
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "status": "closed"
+}
