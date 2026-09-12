@@ -15,6 +15,12 @@ export type AccountType =
 
 export type AccountStatus = 'active' | 'archived' | 'closed';
 
+export type AccountFilter = {
+  search?: string;
+  status?: AccountStatus;
+  types?: AccountType[];
+};
+
 export interface AccountsTable {
   id: Generated<number>;
   user_id: number;
