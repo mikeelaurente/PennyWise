@@ -39,8 +39,12 @@ export const updateAccountStatusSchema = z.object({
 
 export const accountQuerySchema = z.object({
   search: z.string().optional(),
-  status: accountStatusSchema.default('active'),
-  types: accountTypeSchema.array().optional(),
+  status: z.union([accountStatusSchema, z.literal('all')]).default('all'),
+  types: z
+    .string()
+    .transform((value) => value.split(','))
+    .pipe(z.array(accountTypeSchema))
+    .optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(90).default(10),
 });

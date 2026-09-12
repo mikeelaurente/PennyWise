@@ -1,9 +1,8 @@
-import type { UpdateAccountInput } from '../../modules/accounts/account.schema.js';
-
 import type {
   AccountFilter,
   AccountStatus,
   AccountType,
+  AccountUpdate,
   NewAccount,
 } from '../types/accounts.js';
 
@@ -105,7 +104,7 @@ export const checkExistingAccount = async (
 export const updateAccountData = async (
   userId: number,
   accountId: number,
-  data: UpdateAccountInput,
+  data: AccountUpdate,
 ) => {
   return await db
     .updateTable('accounts')
