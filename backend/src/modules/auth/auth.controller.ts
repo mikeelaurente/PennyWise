@@ -1,31 +1,23 @@
-import { Response, Request, NextFunction } from 'express';
+import type { Response, Request } from 'express';
 import * as authServices from './auth.service.js';
-import { registerSchema, loginUserSchema } from './auth.schema.js';
-import { AppError } from '../../shared/utils/app-error.util.js';
+import {
+  registerSchema,
+  loginUserSchema,
+  refreshTokenSchema,
+} from './auth.schema.js';
+import { asyncHandler } from '../../shared/utils/async-handler.util.js';
 
-export const getMe = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const user = await authServices.getMe(req.user!.id);
+export const getMe = asyncHandler(async (req: Request, res: Response) => {
+  const user = await authServices.getMe(req.user!.id);
 
-    return res.status(200).json({
-      status: 'success',
-      data: { user },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  return res.status(200).json({
+    status: 'success',
+    data: { user },
+  });
+});
 
-export const registerUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
+export const registerUser = asyncHandler(
+  async (req: Request, res: Response) => {
     const data = registerSchema.parse(req.body);
 
     const result = await authServices.registerUser(data);
@@ -35,27 +27,40 @@ export const registerUser = async (
       message: 'User registered successfully',
       data: result,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);
 
-export const loginUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const credentials = loginUserSchema.parse(req.body);
+export const loginUser = asyncHandler(async (req: Request, res: Response) => {
+  const credentials = loginUserSchema.parse(req.body);
 
-    const data = await authServices.loginUser(credentials);
+  const data = await authServices.loginUser(credentials);
+
+  return res.status(200).json({
+    status: 'success',
+    message: 'User logged in successfully',
+    data,
+  });
+});
+
+export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  await authServices.logoutUser(req.user!.id);
+
+  return res.status(200).json({
+    status: 'success',
+    message: 'User logged out successfully',
+  });
+});
+
+export const refreshToken = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { refreshToken } = refreshTokenSchema.parse(req.body);
+
+    const data = await authServices.refreshToken(refreshToken);
 
     return res.status(200).json({
       status: 'success',
-      message: 'User logged in successfully',
-      data: data,
+      message: 'Token refreshed successfully',
+      data,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);

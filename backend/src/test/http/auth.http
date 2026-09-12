@@ -3,14 +3,15 @@
 @hostname=localhost
 @port=5000
 @host={{hostname}}:{{port}}
-@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzg5MjAzMTU1LCJleHAiOjE3ODkyMDY3NTV9.iZeg43odwmBZPKh_md_mVQ94_74w8P32iyaJMdtoAFU
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiaWF0IjoxNzg5MjA5Mzg5LCJleHAiOjE3ODkyMTI5ODl9.53z7Sqh53D1xB5X0EqTEsX2MGtTFZZuGBTnqxenE4aU
+@refreshToken=99f482a78fbab160131f41adf78ec8c11f4990c9434816195cf6337ff2343ff100070f5144f539336ed8bf777ef835fcc9135abd1fbeafe9492617a8f58ecf06
 
 ### Login
 POST http://{{host}}/api/auth/login
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
+  "email": "user1@example.com",
   "password": "password"
 }
 
@@ -19,12 +20,25 @@ POST http://{{host}}/api/auth/register
 Content-Type: application/json
 
 {
-  "email": "user@example.com",
+  "email": "user1@example.com",
   "password": "password",
-  "name": "User Name"
+  "name": "User1 Name1"
+}
+
+### Refresh Token
+POST http://{{host}}/api/auth/refresh
+Content-Type: application/json
+
+{
+"refreshToken": "{{refreshToken}}"
 }
 
 ### Get Current User   
 GET http://{{host}}/api/auth/me
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Logout
+POST http://{{host}}/api/auth/logout
 Content-Type: application/json
 Authorization: Bearer {{accessToken}}
