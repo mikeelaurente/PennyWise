@@ -17,6 +17,14 @@ export const findRefreshToken = async (tokenHash: string) => {
     .executeTakeFirst();
 };
 
+export const revokeRefreshToken = async (tokenId: number) => {
+  return db
+    .updateTable('refresh_tokens')
+    .set({ revoked_at: new Date() })
+    .where('id', '=', tokenId)
+    .executeTakeFirst();
+};
+
 export const revokeUserRefreshTokens = async (id: number) => {
   return db
     .updateTable('refresh_tokens')

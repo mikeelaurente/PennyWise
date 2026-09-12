@@ -3,8 +3,8 @@
 @hostname=localhost
 @port=5000
 @host={{hostname}}:{{port}}
-@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiaWF0IjoxNzg5MjA5Mzg5LCJleHAiOjE3ODkyMTI5ODl9.53z7Sqh53D1xB5X0EqTEsX2MGtTFZZuGBTnqxenE4aU
-@refreshToken=99f482a78fbab160131f41adf78ec8c11f4990c9434816195cf6337ff2343ff100070f5144f539336ed8bf777ef835fcc9135abd1fbeafe9492617a8f58ecf06
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiaWF0IjoxNzg5MjExMjMwLCJleHAiOjE3ODkyMTQ4MzB9.crYKOm2c1XkkZKwehkjxCGV1CdcMPf6TSoFJFPwi7t0
+@refreshToken=7ecb0f662a4d6f7b5e32192414536637e8b9dfa26e8756cb07f92dea3c4e5f72cba11e44bd18f05b84c597ca80a1774d3191ebe044d1dca46087e0849f6bb859
 
 ### Login
 POST http://{{host}}/api/auth/login

@@ -123,9 +123,14 @@ export const refreshToken = async (token: string) => {
     throw new AppError(401, 'Refresh token has expired');
   }
 
+  await refreshTokenRepository.revokeRefreshToken(storedToken.id);
+
   const accessToken = await jwtHelper.generateToken(storedToken.user_id);
+
+  const newRefreshToken = await createUserRefreshToken(storedToken.user_id);
 
   return {
     accessToken,
+    refreshToken: newRefreshToken,
   };
 };
