@@ -21,4 +21,3 @@ export interface RefreshTokensTable {
 
 export type RefreshToken = Selectable<RefreshTokensTable>;
 export type NewRefreshToken = Insertable<RefreshTokensTable>;
-export type RefreshTokenUpdate = Updateable<RefreshTokensTable>;
