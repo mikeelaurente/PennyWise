@@ -1,9 +1,15 @@
-import {
+import type {
   AccountFilter,
   UpdateAccountInput,
-} from "../../modules/accounts/account.schema.js";
-import { db } from "../index.js";
-import { AccountStatus, AccountType, NewAccount } from "../types/accounts.js";
+} from '../../modules/accounts/account.schema.js';
+
+import type {
+  AccountStatus,
+  AccountType,
+  NewAccount,
+} from '../types/accounts.js';
+
+import { db } from '../index.js';
 
 export const getAllAccounts = async (
   userId: number,
@@ -12,25 +18,25 @@ export const getAllAccounts = async (
   offset: number,
 ) => {
   let query = db
-    .selectFrom("accounts")
+    .selectFrom('accounts')
     .selectAll()
-    .where("accounts.user_id", "=", userId);
+    .where('accounts.user_id', '=', userId);
 
   let countQuery = db
-    .selectFrom("accounts")
-    .select(({ fn }) => [fn.count("accounts.id").as("total")])
-    .where("accounts.user_id", "=", userId);
+    .selectFrom('accounts')
+    .select(({ fn }) => [fn.count('accounts.id').as('total')])
+    .where('accounts.user_id', '=', userId);
 
   if (filter.search) {
     const search = `%${filter.search}%`;
 
-    query = query.where("accounts.name", "ilike", search);
-    countQuery = countQuery.where("accounts.name", "ilike", search);
+    query = query.where('accounts.name', 'ilike', search);
+    countQuery = countQuery.where('accounts.name', 'ilike', search);
   }
 
   if (filter.status) {
-    query = query.where("accounts.status", "=", filter.status);
-    countQuery = countQuery.where("accounts.status", "=", filter.status);
+    query = query.where('accounts.status', '=', filter.status);
+    countQuery = countQuery.where('accounts.status', '=', filter.status);
   }
 
   const accounts = await query.limit(limit).offset(offset).execute();
@@ -48,16 +54,16 @@ export const getAllAccounts = async (
 
 export const getAccountById = async (id: number, userId: number) => {
   return await db
-    .selectFrom("accounts")
+    .selectFrom('accounts')
     .selectAll()
-    .where("accounts.id", "=", id)
-    .where("accounts.user_id", "=", userId)
+    .where('accounts.id', '=', id)
+    .where('accounts.user_id', '=', userId)
     .executeTakeFirst();
 };
 
 export const createAccount = async (account: NewAccount) => {
   return await db
-    .insertInto("accounts")
+    .insertInto('accounts')
     .values(account)
     .returningAll()
     .executeTakeFirstOrThrow();
@@ -69,13 +75,13 @@ export const updateAccountStatus = async (
   status: AccountStatus,
 ) => {
   return await db
-    .updateTable("accounts")
+    .updateTable('accounts')
     .set({
       status,
       updated_at: new Date().toISOString(),
     })
-    .where("accounts.id", "=", accountId)
-    .where("accounts.user_id", "=", userId)
+    .where('accounts.id', '=', accountId)
+    .where('accounts.user_id', '=', userId)
     .returningAll()
     .executeTakeFirst();
 };
@@ -86,10 +92,10 @@ export const checkExistingAccount = async (
   type: AccountType,
 ) => {
   return await db
-    .selectFrom("accounts")
-    .where("accounts.user_id", "=", userId)
-    .where("accounts.name", "=", name)
-    .where("accounts.account_type", "=", type)
+    .selectFrom('accounts')
+    .where('accounts.user_id', '=', userId)
+    .where('accounts.name', '=', name)
+    .where('accounts.account_type', '=', type)
     .executeTakeFirst();
 };
 
@@ -99,15 +105,20 @@ export const updateAccountData = async (
   data: UpdateAccountInput,
 ) => {
   return await db
-    .updateTable("accounts")
-    .set({
-      name: data.name,
-      account_type: data.accountType,
-      initial_balance: data.initialBalance,
-      updated_at: new Date().toISOString(),
-    })
-    .where("accounts.user_id", "=", userId)
-    .where("accounts.id", "=", accountId)
+    .updateTable('accounts')
+    .set(data)
+    .where('accounts.user_id', '=', userId)
+    .where('accounts.id', '=', accountId)
     .returningAll()
     .executeTakeFirst();
+};
+
+export const hasTransactions = async (accountId: number) => {
+  const transaction = await db
+    .selectFrom('transactions')
+    .select('id')
+    .where('account_id', '=', accountId)
+    .executeTakeFirst();
+
+  return !!transaction;
 };

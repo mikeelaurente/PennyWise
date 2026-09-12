@@ -1,118 +1,98 @@
-import { NextFunction, Request, Response } from "express";
-import * as AccountService from "./account.service.js";
+import type { Request, Response } from 'express';
+
+import * as AccountService from './account.service.js';
+
 import {
   createAccountSchema,
-  searchAccountSchema,
+  accountQuerySchema,
+  updateAccountSchema,
   updateAccountStatusSchema,
-} from "./account.schema.js";
-import { success } from "zod";
+} from './account.schema.js';
 
-export const getAccountHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const id = Number(req.params.id);
+import { idParamSchema } from '../../shared/schema/common.schema.js';
+import { asyncHandler } from '../../shared/utils/async-handler.util.js';
 
-    const accounts = await AccountService.getAccountByIdS(id, req.user!.id);
+export const getAllAccountsHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const input = accountQuerySchema.parse(req.query);
+
+    const accounts = await AccountService.getAllAccounts(req.user!.id, input);
 
     return res.status(200).json({
-      status: "ok",
-      message: "Accounts retrieved successfully.",
+      status: 'ok',
+      message: 'Accounts retrieved successfully.',
       data: accounts,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);
 
-export const createAccountHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const data = createAccountSchema.parse(req.body);
-    const userId = req.user!.id;
+export const getAccountHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id: accountId } = idParamSchema.parse(req.params);
 
-    const account = await AccountService.createAccountS(userId, data);
+    const account = await AccountService.getAccountById(
+      accountId,
+      req.user!.id,
+    );
 
     return res.status(200).json({
-      status: "ok",
-      message: "Account created successfully",
+      status: 'ok',
+      message: 'Account retrieved successfully.',
       data: account,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);
 
-export const getAllAccountsHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const data = searchAccountSchema.parse(req.query);
-    const accounts = await AccountService.getAllAccounts(req.user!.id, data);
+export const createAccountHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const input = createAccountSchema.parse(req.body);
 
-    return res.status(200).json({
-      status: "ok",
-      message: "Account retrieved successfully.",
-      data: accounts,
+    const account = await AccountService.createAccount(req.user!.id, input);
+
+    return res.status(201).json({
+      status: 'ok',
+      message: 'Account created successfully.',
+      data: account,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);
 
-export const updateAccountStatusHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const accountId = Number(req.params.id);
-    const userId = req.user!.id;
+export const updateAccountStatusHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id: accountId } = idParamSchema.parse(req.params);
 
     const input = updateAccountStatusSchema.parse(req.body);
-    const account = await AccountService.updateAccountStatusS(
+
+    const account = await AccountService.updateAccountStatus(
       accountId,
-      userId,
+      req.user!.id,
       input,
     );
+
     return res.status(200).json({
-      status: "ok",
-      message: "Account status updated successfully.",
+      status: 'ok',
+      message: 'Account status updated successfully.',
       data: account,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);
 
-export const updateAccountDataHandler = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const accountId = Number(req.params.id);
-    const userId = req.user!.id;
-    const data = createAccountSchema.parse(req.body);
+export const updateAccountDataHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id: accountId } = idParamSchema.parse(req.params);
+
+    const input = updateAccountSchema.parse(req.body);
 
     const account = await AccountService.updateAccountData(
-      userId,
+      req.user!.id,
       accountId,
-      data,
+      input,
     );
+
     return res.status(200).json({
-      status: "ok",
-      message: "Account data updated successfully.",
+      status: 'ok',
+      message: 'Account data updated successfully.',
       data: account,
     });
-  } catch (error) {
-    next(error);
-  }
-};
+  },
+);

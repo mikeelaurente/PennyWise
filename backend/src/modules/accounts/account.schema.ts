@@ -1,25 +1,35 @@
-import z from "zod";
-export const ACCOUNT_STATIUS = ["active", "archived", "closed"] as const;
+import z from 'zod';
 
-export const accountTypeSchema = z.enum(
-  ["e-wallet", "bank", "cash", "credit-card", "investment"],
-  { message: "Invalid account type." },
-);
+// Account constants and schemas
 
-export const accountStatusSchema = z.enum(["active", "archived", "closed"], {
-  message: "Invalid account status.",
+export const ACCOUNT_STATUSES = ['active', 'archived', 'closed'] as const;
+
+export const ACCOUNT_TYPES = [
+  'e-wallet',
+  'bank',
+  'cash',
+  'credit-card',
+  'investment',
+] as const;
+
+export const accountTypeSchema = z.enum(ACCOUNT_TYPES, {
+  message: 'Invalid account type.',
+});
+
+export const accountStatusSchema = z.enum(ACCOUNT_STATUSES, {
+  message: 'Invalid account status.',
 });
 
 export const createAccountSchema = z.object({
-  name: z.string().min(1, { message: "Account name is required" }).max(100, {
-    message: "Account name must be at most 100 characters long",
+  name: z.string().min(1, { message: 'Account name is required' }).max(100, {
+    message: 'Account name must be at most 100 characters long',
   }),
 
   accountType: accountTypeSchema,
 
   initialBalance: z.string().regex(/^\d+(\.\d{1,2})?$/, {
     message:
-      "Initial balance must be a valid number with up to two decimal places.",
+      'Initial balance must be a valid number with up to two decimal places.',
   }),
 });
 
@@ -27,26 +37,34 @@ export const updateAccountStatusSchema = z.object({
   status: accountStatusSchema,
 });
 
-export const accountType = z.object({
-  type: accountTypeSchema,
-});
-
-export const searchAccountSchema = z.object({
+export const accountQuerySchema = z.object({
   search: z.string().optional(),
-  status: z.enum(["active", "archived", "closed"]).default("active"),
+  status: accountStatusSchema.default('active'),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(90).default(10),
 });
 
+export const updateAccountSchema = createAccountSchema.partial();
+
+// Inferred types
+
 export type CreateAccountInput = z.infer<typeof createAccountSchema>;
+
+export type UpdateAccountInput = z.infer<typeof updateAccountSchema>;
+
 export type UpdateAccountStatusInput = z.infer<
   typeof updateAccountStatusSchema
 >;
-export type AccountType = z.infer<typeof accountType>;
-export type SearchAccountSchema = z.infer<typeof searchAccountSchema>;
-export type AccountStatus = (typeof ACCOUNT_STATIUS)[number];
+
+export type AccountType = z.infer<typeof accountTypeSchema>;
+
+export type AccountQueryParams = z.infer<typeof accountQuerySchema>;
+
+export type AccountStatus = z.infer<typeof accountStatusSchema>;
+
+// Account status and filter types
+
 export type AccountFilter = {
   search?: string;
   status?: AccountStatus;
 };
-export type UpdateAccountInput = z.infer<typeof createAccountSchema>;

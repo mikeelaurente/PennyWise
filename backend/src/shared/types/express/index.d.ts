@@ -1,9 +1,12 @@
-import { AuthUser } from "../../../modules/auth/auth.types.ts";
-
 declare global {
   namespace Express {
+    interface UserPayload {
+      id: number;
+      email: string;
+    }
+
     interface Request {
-      user?: AuthUser;
+      user?: UserPayload;
     }
   }
 }
