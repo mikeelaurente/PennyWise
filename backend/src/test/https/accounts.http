@@ -3,7 +3,7 @@
 @hostname=localhost
 @port=5000
 @host={{hostname}}:{{port}}
-@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxIiwiaWF0IjoxNzg5MjAzMTU1LCJleHAiOjE3ODkyMDY3NTV9.iZeg43odwmBZPKh_md_mVQ94_74w8P32iyaJMdtoAFU
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiaWF0IjoxNzg5MjA5Mzg5LCJleHAiOjE3ODkyMTI5ODl9.53z7Sqh53D1xB5X0EqTEsX2MGtTFZZuGBTnqxenE4aU
 
 ### Create Account
 POST http://{{host}}/api/accounts

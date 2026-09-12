@@ -1,0 +1,44 @@
+### Authentication
+
+@hostname=localhost
+@port=5000
+@host={{hostname}}:{{port}}
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiaWF0IjoxNzg5MjExMjMwLCJleHAiOjE3ODkyMTQ4MzB9.crYKOm2c1XkkZKwehkjxCGV1CdcMPf6TSoFJFPwi7t0
+@refreshToken=7ecb0f662a4d6f7b5e32192414536637e8b9dfa26e8756cb07f92dea3c4e5f72cba11e44bd18f05b84c597ca80a1774d3191ebe044d1dca46087e0849f6bb859
+
+### Login
+POST http://{{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "password"
+}
+
+### Register
+POST http://{{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user1@example.com",
+  "password": "password",
+  "name": "User1 Name1"
+}
+
+### Refresh Token
+POST http://{{host}}/api/auth/refresh
+Content-Type: application/json
+
+{
+"refreshToken": "{{refreshToken}}"
+}
+
+### Get Current User   
+GET http://{{host}}/api/auth/me
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Logout
+POST http://{{host}}/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
