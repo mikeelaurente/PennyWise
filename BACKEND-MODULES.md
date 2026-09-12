@@ -16,7 +16,7 @@
   - [x] `GET /api/auth/me`
   - [x] Authentication middleware: `isAuthenticated`
   - [x] Controller: `getCurrentUser`
-- [ ] Logout and token revocation
+- [x] Logout and token revocation
 
 ## Financial Accounts
 
