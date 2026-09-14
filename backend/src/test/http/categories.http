@@ -1,0 +1,90 @@
+### Categories API
+
+@hostname=localhost
+@port=5000
+@host={{hostname}}:{{port}}
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiaWF0IjoxNzg5MzkxNjkxLCJleHAiOjE3ODkzOTUyOTF9.UiDqhXf8lvpbhvQzRCbOPj37qGEWfjhR1vVph7YG2Ig
+@spaceId=2
+@categoryId=1
+
+### Create Expense Category
+POST http://{{host}}/api/categories
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"spaceId": {{spaceId}},
+	"name": "Groceries",
+	"type": "expense"
+}
+
+### Create Income Category
+POST http://{{host}}/api/categories
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"spaceId": {{spaceId}},
+	"name": "Salary",
+	"type": "income"
+}
+
+### Get Categories
+GET http://{{host}}/api/categories?spaceId={{spaceId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Search Expense Categories
+GET http://{{host}}/api/categories?spaceId={{spaceId}}&type=expense&search=food&page=1&limit=10
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Get Category by ID
+GET http://{{host}}/api/categories/{{categoryId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update Category
+PATCH http://{{host}}/api/categories/{{categoryId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"name": "Food and Groceries",
+	"type": "expense"
+}
+
+### Delete Category
+DELETE http://{{host}}/api/categories/{{categoryId}}
+Authorization: Bearer {{accessToken}}
+
+### Validation: Missing Space ID
+GET http://{{host}}/api/categories
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Validation: Invalid Category Type
+POST http://{{host}}/api/categories
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"spaceId": {{spaceId}},
+	"name": "Invalid Category",
+	"type": "invalid"
+}
+
+### Conflict: Duplicate Category
+POST http://{{host}}/api/categories
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"spaceId": {{spaceId}},
+	"name": "Groceries",
+	"type": "expense"
+}
+
+### Authentication: Missing Token
+GET http://{{host}}/api/categories?spaceId={{spaceId}}
+Content-Type: application/json
