@@ -16,14 +16,45 @@ Follow the existing project structure and coding patterns before introducing new
 
 Read these documents before implementing domain or schema changes:
 
-- `.github/docs/business-rules.md` for application behavior, ownership, authorization, and financial rules.
+- `.github/docs/bussiness-rules.md` for application behavior, ownership, authorization, and financial rules.
 - `.github/docs/database.md` for PostgreSQL schema, migrations, query practices, and schema-change workflow.
+- `BACKEND-MODULES.md` for the approved backend feature and endpoint checklist.
 
 Current implementation status:
 
 - Authentication and financial-account CRUD are implemented.
 - Spaces, categories, transactions, budgets, and savings goals have database migrations and Kysely types but are not yet fully exposed through routes and services.
 - Do not describe a planned rule as implemented unless the backend enforces it and tests cover it.
+
+### Endpoint Generation From `BACKEND-MODULES.md`
+
+`BACKEND-MODULES.md` is the source of truth for which backend endpoints should be generated.
+
+Before implementing or changing an endpoint:
+
+1. Read the relevant module section in `BACKEND-MODULES.md`.
+2. Implement only items marked `[x]` or explicitly requested by the user.
+3. Treat unchecked `[ ]` items as planned work; do not implement them implicitly.
+4. Follow the endpoint path, HTTP method, middleware, controller, service, validation, and test requirements listed under the checked item.
+5. If the checklist names a feature but does not define its endpoint contract, inspect the business rules, database schema, and existing module conventions before choosing a route.
+6. When implementation is complete, update `BACKEND-MODULES.md` with the endpoint and supporting layers that were actually added.
+7. Do not mark an item complete unless the route is registered, authorization and validation are implemented, and relevant tests or HTTP requests exist.
+8. If the requested endpoint conflicts with the checklist, business rules, or database model, stop and ask for clarification rather than inventing a contract.
+
+When generating a new module from a checklist item, use the existing project structure:
+
+```text
+src/modules/<domain>/
+├── <domain>.schema.ts
+├── <domain>.controller.ts
+├── <domain>.service.ts
+└── <domain>.routes.ts
+
+src/db/repositories/<domain>.ts
+src/db/types/<domain>.ts
+```
+
+Register the router in `src/routes.ts`, protect authenticated resources with the existing authentication middleware, and keep the checklist status synchronized with the implementation.
 
 ---
 
