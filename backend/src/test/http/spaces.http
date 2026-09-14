@@ -1,0 +1,124 @@
+### Spaces API
+
+@hostname=localhost
+@port=5000
+@host={{hostname}}:{{port}}
+@accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyIiwiaWF0IjoxNzg5MzkxNjkxLCJleHAiOjE3ODkzOTUyOTF9.UiDqhXf8lvpbhvQzRCbOPj37qGEWfjhR1vVph7YG2Ig
+@memberUserId=2
+@accountId=2
+
+@spaceId = 2
+
+### Create Individual Space
+POST http://{{host}}/api/spaces
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"name": "Personal Space",
+	"type": "individual"
+}
+
+### Create Shared Space
+POST http://{{host}}/api/spaces
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"name": "Shared Household",
+	"type": "shared"
+}
+
+### List Available Spaces
+GET http://{{host}}/api/spaces
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Search and Filter Spaces
+GET http://{{host}}/api/spaces?search=house&type=shared&page=1&limit=10
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Get Space by ID
+GET http://{{host}}/api/spaces/{{spaceId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update Space
+PATCH http://{{host}}/api/spaces/{{spaceId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"name": "Shared Account",
+	"type": "shared"
+}
+
+### Add Member by User ID
+POST http://{{host}}/api/spaces/{{spaceId}}/members
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"userId": {{memberUserId}}
+}
+
+### Join Space
+POST http://{{host}}/api/spaces/{{spaceId}}/join
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update Member Role
+PATCH http://{{host}}/api/spaces/{{spaceId}}/members/{{memberUserId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"role": "owner"
+}
+
+### Remove Member
+DELETE http://{{host}}/api/spaces/{{spaceId}}/members/{{memberUserId}}
+Authorization: Bearer {{accessToken}}
+
+### Leave Space
+POST http://{{host}}/api/spaces/{{spaceId}}/leave
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Add Existing Account to Space
+POST http://{{host}}/api/spaces/{{spaceId}}/accounts/{{accountId}}
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Remove Account from Space
+DELETE http://{{host}}/api/spaces/{{spaceId}}/accounts/{{accountId}}
+Authorization: Bearer {{accessToken}}
+
+### Validation: Invalid Space Type
+POST http://{{host}}/api/spaces
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"name": "Invalid Space",
+	"type": "invalid"
+}
+
+### Validation: Invalid Space ID
+GET http://{{host}}/api/spaces/not-a-number
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+### Conflict: Add Existing Member
+POST http://{{host}}/api/spaces/{{spaceId}}/members
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+	"userId": {{memberUserId}}
+}
+
+### Authentication: Missing Token
+GET http://{{host}}/api/spaces
+Content-Type: application/json

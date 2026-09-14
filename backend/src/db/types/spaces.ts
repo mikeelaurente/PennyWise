@@ -6,13 +6,13 @@ import type {
   Updateable,
 } from 'kysely';
 
-export type SpaceType = 'personal' | 'shared';
+export type SpaceType = 'individual' | 'shared';
 export type SpaceRole = 'owner' | 'member';
 
 export interface SpacesTable {
   id: Generated<number>;
   name: string;
-  space_type: SpaceType;
+  type: SpaceType;
   created_by_user_id: number;
   created_at: ColumnType<Date, string | undefined, never>;
 }
