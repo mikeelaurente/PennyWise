@@ -3,13 +3,9 @@ import type {
   CategoryType,
   CategoryUpdate,
   NewCategory,
+  StatusType,
+  CategoryFilter,
 } from '../types/categories.js';
-
-export type CategoryFilter = {
-  search?: string;
-  type?: CategoryType;
-};
-
 export const getAllCategories = async (
   userId: number,
   spaceId: number,
@@ -25,6 +21,7 @@ export const getAllCategories = async (
       'categories.space_id',
       'categories.name',
       'categories.type',
+      'categories.status',
       'categories.is_default',
       'categories.created_at',
     ])
@@ -47,6 +44,11 @@ export const getAllCategories = async (
   if (filter.type) {
     query = query.where('categories.type', '=', filter.type);
     countQuery = countQuery.where('categories.type', '=', filter.type);
+  }
+
+  if (filter.status) {
+    query = query.where('categories.status', '=', filter.status);
+    countQuery = countQuery.where('categories.status', '=', filter.status);
   }
 
   const categories = await query
@@ -74,6 +76,7 @@ export const getCategoryById = async (id: number, userId: number) => {
       'categories.space_id',
       'categories.name',
       'categories.type',
+      'categories.status',
       'categories.is_default',
       'categories.created_at',
     ])

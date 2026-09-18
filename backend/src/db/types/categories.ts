@@ -5,14 +5,24 @@ import type {
   Selectable,
   Updateable,
 } from 'kysely';
+import { string } from 'zod';
 
 export type CategoryType = 'income' | 'expense';
+export type StatusType = 'active' | 'archived' | 'closed';
+
+export type CategoryFilter = {
+  search?: string,
+  status?: StatusType,
+  type?: CategoryType
+  
+}
 
 export interface CategoriesTable {
   id: Generated<number>;
   space_id: number;
   name: string;
   type: CategoryType;
+  status: StatusType; 
   is_default: ColumnType<boolean, boolean | undefined, boolean | undefined>;
   created_at: ColumnType<Date, string | undefined, never>;
 }

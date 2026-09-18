@@ -15,7 +15,8 @@ Authorization: Bearer {{accessToken}}
 {
 	"spaceId": {{spaceId}},
 	"name": "Groceries",
-	"type": "expense"
+	"type": "expense",
+	"status": "active"
 }
 
 ### Create Income Category
@@ -26,7 +27,8 @@ Authorization: Bearer {{accessToken}}
 {
 	"spaceId": {{spaceId}},
 	"name": "Salary",
-	"type": "income"
+	"type": "income",
+	"status": "active"
 }
 
 ### Get Categories
@@ -51,7 +53,8 @@ Authorization: Bearer {{accessToken}}
 
 {
 	"name": "Food and Groceries",
-	"type": "expense"
+	"type": "expense",
+	"status": "archived"
 }
 
 ### Delete Category

@@ -115,6 +115,7 @@ Represents a space-specific category used to classify transactions.
 | `space_id`   | `bigint`       | Required foreign key to `spaces.id`; deletes cascade. |
 | `name`       | `varchar(100)` | Required.                                             |
 | `type`       | `varchar(50)`  | Required.                                             |
+| `status`     | `varchar(50)`  | Required.                                             |
 | `is_default` | `boolean`      | Required; defaults to `false`.                        |
 | `created_at` | `timestamptz`  | Required; defaults to `now()`.                        |
 

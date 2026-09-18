@@ -8,14 +8,14 @@ import type {
 
 export const getAllCategories = async (
   userId: number,
-  { spaceId, search, type, page, limit }: CategoryQueryParams,
+  { spaceId, search, type, status, page, limit }: CategoryQueryParams,
 ) => {
   const offset = limit * (page - 1);
 
   return CategoryRepository.getAllCategories(
     userId,
     spaceId,
-    { search, type },
+    { search, type, status },
     limit,
     offset,
   );
@@ -58,6 +58,7 @@ export const createCategory = async (
     space_id: input.spaceId,
     name: input.name,
     type: input.type,
+    status: input.status,
   });
 };
 
@@ -68,7 +69,16 @@ export const updateCategory = async (
 ) => {
   const category = await getCategoryById(id, userId);
 
-  if (input.name !== undefined || input.type !== undefined) {
+  if (input.status !== undefined && category.status === 'closed') {
+    if (input.status !== 'closed') {
+      throw new AppError(409, 'A closed category cannot be reopened.');
+    }
+  }
+
+  const hasIdentityChange =
+    input.name !== undefined || input.type !== undefined;
+
+  if (hasIdentityChange) {
     const existing = await CategoryRepository.checkExistingCategory(
       category.space_id,
       input.name ?? category.name,
@@ -84,6 +94,7 @@ export const updateCategory = async (
   const updatedCategory = await CategoryRepository.updateCategory(id, {
     ...(input.name !== undefined && { name: input.name }),
     ...(input.type !== undefined && { type: input.type }),
+    ...(input.status !== undefined && { status: input.status }),
   });
 
   if (!updatedCategory) {
