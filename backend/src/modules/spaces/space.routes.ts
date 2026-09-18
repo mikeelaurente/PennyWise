@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as SpaceHandler from './space.controller.js';
-import { isAuthenticated } from '../../middleware/authorization.middleware.js';
+import { isAuthenticated } from '../../middlewares/authorization.middleware.js';
 
 const router = Router();
 
