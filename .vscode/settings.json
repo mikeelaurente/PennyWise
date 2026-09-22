@@ -1,5 +1,8 @@
 {
   "prettier.singleQuote": true,
   "javascript.preferences.quoteStyle": "single",
-  "typescript.preferences.quoteStyle": "single"
+  "typescript.preferences.quoteStyle": "single",
+  "chat.tools.terminal.autoApprove": {
+    "npx tsc": true
+  }
 }

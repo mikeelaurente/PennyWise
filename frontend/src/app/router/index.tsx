@@ -8,8 +8,38 @@ import CategoriesPage from '../features/categories/pages/CategoriesPage';
 import SavingsPage from '../features/savings/pages/SavingsPage';
 import TransactionsPage from '../features/transactions/pages/TransactionsPage';
 
-function HomePage() {
-  return <h1>PennyWise Home</h1>;
+function DashboardPage() {
+  return (
+    <div>
+      <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        <div className="bg-white p-6 rounded shadow">
+          <p className="text-gray-600 text-sm">Total Balance</p>
+          <p className="text-2xl font-bold mt-2">$0.00</p>
+        </div>
+        <div className="bg-white p-6 rounded shadow">
+          <p className="text-gray-600 text-sm">This Month</p>
+          <p className="text-2xl font-bold mt-2">$0.00</p>
+        </div>
+        <div className="bg-white p-6 rounded shadow">
+          <p className="text-gray-600 text-sm">Budgets</p>
+          <p className="text-2xl font-bold mt-2">0</p>
+        </div>
+        <div className="bg-white p-6 rounded shadow">
+          <p className="text-gray-600 text-sm">Accounts</p>
+          <p className="text-2xl font-bold mt-2">0</p>
+        </div>
+      </div>
+
+      <div className="border border-dashed rounded p-8 text-center text-gray-500">
+        <p>Dashboard content coming soon</p>
+        <p className="text-sm mt-2">
+          Start by adding an account to see your financial overview
+        </p>
+      </div>
+    </div>
+  );
 }
 
 export function AppRouter() {
@@ -19,7 +49,7 @@ export function AppRouter() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/app" element={<AppLayout />}>
-          <Route index element={<HomePage />} />
+          <Route index element={<DashboardPage />} />
           <Route path="accounts" element={<AccountsPage />} />
           <Route path="budgets" element={<BudgetsPage />} />
           <Route path="categories" element={<CategoriesPage />} />
