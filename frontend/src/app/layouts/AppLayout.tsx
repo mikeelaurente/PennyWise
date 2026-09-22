@@ -1,92 +1,52 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { Sidebar, MobileHeader } from '../shared/components';
+
+interface SpaceOption {
+  id: string;
+  name: string;
+  type: 'personal' | 'shared';
+}
 
 function AppLayout() {
-  return (
-    <div className="min-h-screen flex flex-col">
-      <header className="h-16 border-b bg-white flex items-center px-6">
-        <h1 className="text-2xl font-bold">PennyWise</h1>
-      </header>
-      <div className="flex flex-1">
-        <aside className="w-64 border-r bg-gray-50">
-          <nav className="flex flex-col space-y-1 p-4">
-            <NavLink
-              to="/app"
-              end
-              className={({ isActive }) =>
-                `px-4 py-2 rounded transition ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`
-              }
-            >
-              Dashboard
-            </NavLink>
-            <NavLink
-              to="/app/accounts"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded transition ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`
-              }
-            >
-              Accounts
-            </NavLink>
-            <NavLink
-              to="/app/budgets"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded transition ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`
-              }
-            >
-              Budgets
-            </NavLink>
-            <NavLink
-              to="/app/categories"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded transition ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`
-              }
-            >
-              Categories
-            </NavLink>
-            <NavLink
-              to="/app/savings"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded transition ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`
-              }
-            >
-              Savings
-            </NavLink>
-            <NavLink
-              to="/app/transactions"
-              className={({ isActive }) =>
-                `px-4 py-2 rounded transition ${
-                  isActive
-                    ? 'bg-blue-100 text-blue-700 font-semibold'
-                    : 'text-gray-700 hover:bg-gray-200'
-                }`
-              }
-            >
-              Transactions
-            </NavLink>
-          </nav>
-        </aside>
+  const [currentSpace, setCurrentSpace] = useState<SpaceOption>({
+    id: '1',
+    name: 'Mikee Personal',
+    type: 'personal',
+  });
 
-        <main className="flex-1 p-8 bg-gray-50">
-          <Outlet />
+  const spaces: SpaceOption[] = [
+    { id: '1', name: 'Mikee Personal', type: 'personal' },
+    { id: '2', name: 'Mikee & Tan', type: 'shared' },
+  ];
+
+  const handleSpaceChange = (space: SpaceOption) => {
+    setCurrentSpace(space);
+    // In a real app, this would trigger a refetch of space-specific data
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#F8FAF9]">
+      {/* Mobile Header */}
+      <MobileHeader
+        currentSpace={currentSpace}
+        spaces={spaces}
+        onSpaceChange={handleSpaceChange}
+      />
+
+      <div className="flex flex-1 overflow-hidden">
+        {/* Desktop Sidebar */}
+        <Sidebar
+          currentSpace={currentSpace}
+          spaces={spaces}
+          onSpaceChange={handleSpaceChange}
+        />
+
+        {/* Main Content */}
+        <main className="flex-1 overflow-y-auto">
+          <div className="min-h-full px-[16px] py-[16px] md:px-[32px] md:py-[16px] lg:px-[48px] max-w-7xl mx-auto w-full">
+            <Outlet context={{ currentSpace, spaces }} />
+          </div>
         </main>
       </div>
     </div>

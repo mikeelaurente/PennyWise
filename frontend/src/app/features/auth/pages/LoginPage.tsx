@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import apiClient from '../../../shared/api/apiClient';
+import { useAuthStore } from '../store/useAuthStore';
 import type { User } from '../types';
 
 function LoginPage() {
   const navigate = useNavigate();
+  const setUser = useAuthStore((state) => state.setUser);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,8 +24,8 @@ function LoginPage() {
 
     setLoading(false);
 
-    if (response.status === 'success') {
-      // TODO: Save user session/token once auth state is implemented
+    if (response.status === 'success' && response.data) {
+      setUser(response.data);
       navigate('/app');
     } else {
       setError(response.message || 'Login failed');

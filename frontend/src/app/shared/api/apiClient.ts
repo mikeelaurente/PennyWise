@@ -1,17 +1,3 @@
-/**
- * Simple API client for communicating with the backend.
- *
- * Usage:
- *   const response = await apiClient<User>('/auth/login', {
- *     method: 'POST',
- *     body: { email: 'user@example.com', password: 'pass' }
- *   });
- *
- *   if (response.status === 'success') {
- *     console.log(response.data);
- *   }
- */
-
 import type { ApiResponse } from './types';
 
 interface RequestOptions {
@@ -19,12 +5,6 @@ interface RequestOptions {
   body?: Record<string, unknown>;
 }
 
-/**
- * Make an API request to the backend
- * @param route - The API route (e.g., '/auth/login')
- * @param options - Optional request configuration
- * @returns Promise with the API response
- */
 async function apiClient<T>(
   route: string,
   options: RequestOptions = {},
@@ -38,7 +18,7 @@ async function apiClient<T>(
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include', // Include cookies for future auth
+    credentials: 'include',
   };
 
   if (body) {
