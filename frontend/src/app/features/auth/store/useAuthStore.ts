@@ -1,14 +1,16 @@
 import { create } from 'zustand';
-import type { User } from '../types';
+import type { AuthUser } from '../types';
 
 interface AuthStore {
-  user: User | null;
-  setUser: (user: User) => void;
-  clearUser: () => void;
+  user: AuthUser | null;
+  accessToken: string | null;
+  setAuth: (user: AuthUser, accessToken: string) => void;
+  clearAuth: () => void;
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
   user: null,
-  setUser: (user: User) => set({ user }),
-  clearUser: () => set({ user: null }),
+  accessToken: null,
+  setAuth: (user: AuthUser, accessToken: string) => set({ user, accessToken }),
+  clearAuth: () => set({ user: null, accessToken: null }),
 }));

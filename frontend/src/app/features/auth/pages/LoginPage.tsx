@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import apiClient from '../../../shared/api/apiClient';
 import { useAuthStore } from '../store/useAuthStore';
-import type { User } from '../types';
+import type { BackendAuthResponse } from '../types';
 
 function LoginPage() {
   const navigate = useNavigate();
-  const setUser = useAuthStore((state) => state.setUser);
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -17,7 +17,7 @@ function LoginPage() {
     setError('');
     setLoading(true);
 
-    const response = await apiClient<User>('/auth/login', {
+    const response = await apiClient<BackendAuthResponse>('/auth/login', {
       method: 'POST',
       body: { email, password },
     });
@@ -25,7 +25,16 @@ function LoginPage() {
     setLoading(false);
 
     if (response.status === 'success' && response.data) {
-      setUser(response.data);
+      const { user, accessToken } = response.data;
+      // Normalize user with string ID from backend number ID
+      setAuth(
+        {
+          id: String(user.id),
+          name: user.name,
+          email: user.email,
+        },
+        accessToken,
+      );
       navigate('/app');
     } else {
       setError(response.message || 'Login failed');

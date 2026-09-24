@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import apiClient from '../../../shared/api/apiClient';
-import type { User } from '../types';
+import { useAuthStore } from '../store/useAuthStore';
+import type { BackendAuthResponse } from '../types';
 
 function RegisterPage() {
   const navigate = useNavigate();
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,15 +30,24 @@ function RegisterPage() {
 
     setLoading(true);
 
-    const response = await apiClient<User>('/auth/register', {
+    const response = await apiClient<BackendAuthResponse>('/auth/register', {
       method: 'POST',
       body: { name, email, password },
     });
 
     setLoading(false);
 
-    if (response.status === 'success') {
-      // TODO: Save user session/token once auth state is implemented
+    if (response.status === 'success' && response.data) {
+      const { user, accessToken } = response.data;
+      // Normalize user with string ID from backend number ID
+      setAuth(
+        {
+          id: String(user.id),
+          name: user.name,
+          email: user.email,
+        },
+        accessToken,
+      );
       navigate('/app');
     } else {
       setError(response.message || 'Registration failed');

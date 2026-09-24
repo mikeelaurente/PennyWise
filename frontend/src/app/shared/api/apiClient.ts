@@ -1,4 +1,5 @@
 import type { ApiResponse } from './types';
+import { useAuthStore } from '../../features/auth/store/useAuthStore';
 
 interface RequestOptions {
   method?: 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -18,8 +19,16 @@ async function apiClient<T>(
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
   };
+
+  const accessToken = useAuthStore.getState().accessToken;
+
+  if (accessToken) {
+    fetchOptions.headers = {
+      ...fetchOptions.headers,
+      Authorization: `Bearer ${accessToken}`,
+    };
+  }
 
   if (body) {
     fetchOptions.body = JSON.stringify(body);

@@ -39,10 +39,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navigate = useNavigate();
   const [isSpaceMenuOpen, setIsSpaceMenuOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
-  const clearUser = useAuthStore((state) => state.clearUser);
+  const clearAuth = useAuthStore((state) => state.clearAuth);
 
   const handleLogout = () => {
-    clearUser();
+    clearAuth();
     navigate('/login');
   };
 
