@@ -1,7 +1,5 @@
 import z from 'zod';
 
-// Account constants and schemas
-
 export const ACCOUNT_STATUSES = ['active', 'archived', 'closed'] as const;
 
 export const ACCOUNT_TYPES = [
@@ -50,8 +48,6 @@ export const accountQuerySchema = z.object({
 });
 
 export const updateAccountSchema = createAccountSchema.partial();
-
-// Inferred types
 
 export type CreateAccountInput = z.infer<typeof createAccountSchema>;
 

@@ -9,7 +9,6 @@ export const app = express();
 
 app.use(morgan('dev'));
 
-// Enable CORS for the frontend origin
 app.use(
   cors({
     origin: env.FRONTEND_URL,

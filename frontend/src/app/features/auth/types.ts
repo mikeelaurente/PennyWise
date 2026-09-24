@@ -40,3 +40,30 @@ export type LoginResponse = {
   message?: string;
   data?: BackendAuthResponse;
 };
+
+/**
+ * /auth/me response - returns current user
+ */
+export type GetMeResponse = {
+  status: 'success' | 'error';
+  message?: string;
+  data?: {
+    user: {
+      id: number;
+      email: string;
+      name: string;
+    };
+  };
+};
+
+/**
+ * /auth/refresh response - returns new access and refresh tokens
+ */
+export type RefreshTokenResponse = {
+  status: 'success' | 'error';
+  message?: string;
+  data?: {
+    accessToken: string;
+    refreshToken: string;
+  };
+};

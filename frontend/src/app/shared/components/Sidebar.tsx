@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Icon } from './Icon';
 import { useAuthStore } from '../../features/auth/store/useAuthStore';
+import apiClient from '../api/apiClient';
 
 interface SpaceOption {
   id: string;
@@ -41,9 +42,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const user = useAuthStore((state) => state.user);
   const clearAuth = useAuthStore((state) => state.clearAuth);
 
-  const handleLogout = () => {
-    clearAuth();
-    navigate('/login');
+  const handleLogout = async () => {
+    try {
+      await apiClient('/auth/logout', {
+        method: 'POST',
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      clearAuth();
+      navigate('/login');
+    }
   };
 
   const handleSpaceSelect = (space: SpaceOption) => {

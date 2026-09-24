@@ -38,8 +38,7 @@ function RegisterPage() {
     setLoading(false);
 
     if (response.status === 'success' && response.data) {
-      const { user, accessToken } = response.data;
-      // Normalize user with string ID from backend number ID
+      const { user, accessToken, refreshToken } = response.data;
       setAuth(
         {
           id: String(user.id),
@@ -47,6 +46,7 @@ function RegisterPage() {
           email: user.email,
         },
         accessToken,
+        refreshToken,
       );
       navigate('/app');
     } else {

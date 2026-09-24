@@ -22,12 +22,10 @@ function AppLayout() {
 
   const handleSpaceChange = (space: SpaceOption) => {
     setCurrentSpace(space);
-    // In a real app, this would trigger a refetch of space-specific data
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F8FAF9]">
-      {/* Mobile Header */}
       <MobileHeader
         currentSpace={currentSpace}
         spaces={spaces}

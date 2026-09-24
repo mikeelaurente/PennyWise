@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useInitializeAuth } from '../features/auth/hooks/useInitializeAuth';
+import { ProtectedRoute } from '../features/auth/components/ProtectedRoute';
+import { PublicOnlyRoute } from '../features/auth/components/PublicOnlyRoute';
 import LoginPage from '../features/auth/pages/LoginPage';
 import RegisterPage from '../features/auth/pages/RegisterPage';
 import AppLayout from '../layouts/AppLayout';
@@ -174,20 +177,27 @@ function DashboardPage() {
 }
 
 export function AppRouter() {
+  useInitializeAuth();
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/app" element={<AppLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="accounts" element={<AccountsPage />} />
-          <Route path="budgets" element={<BudgetsPage />} />
-          <Route path="categories" element={<CategoriesPage />} />
-          <Route path="savings" element={<SavingsPage />} />
-          <Route path="transactions" element={<TransactionsPage />} />
-          <Route path="analytics" element={<AnalyticsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+        <Route element={<PublicOnlyRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/app" element={<AppLayout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="accounts" element={<AccountsPage />} />
+            <Route path="budgets" element={<BudgetsPage />} />
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="savings" element={<SavingsPage />} />
+            <Route path="transactions" element={<TransactionsPage />} />
+            <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
