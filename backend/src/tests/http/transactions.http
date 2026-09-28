@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:3000/api
+@token = replace-with-access-token
+@spaceId = 1
+@accountId = 1
+@transactionId = 1
+
+### Create expense (amount is an exact decimal string)
+POST {{baseUrl}}/transactions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "spaceId": {{spaceId}},
+  "accountId": {{accountId}},
+  "type": "expense",
+  "amount": "12.50",
+  "date": "2026-09-28",
+  "description": "Lunch"
+}
+
+### Create income (date defaults to current date)
+POST {{baseUrl}}/transactions
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "spaceId": {{spaceId}},
+  "accountId": {{accountId}},
+  "type": "income",
+  "amount": "1000.00"
+}
+
+### List filtered history
+GET {{baseUrl}}/transactions?spaceId={{spaceId}}&accountId={{accountId}}&type=expense&search=Lunch&startDate=2026-09-01&endDate=2026-09-30&page=1&limit=10
+Authorization: Bearer {{token}}
+
+### View transaction
+GET {{baseUrl}}/transactions/{{transactionId}}
+Authorization: Bearer {{token}}
+
+### Update transaction and clear category
+PATCH {{baseUrl}}/transactions/{{transactionId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "amount": "15.00",
+  "categoryId": null
+}
+
+### Delete transaction
+DELETE {{baseUrl}}/transactions/{{transactionId}}
+Authorization: Bearer {{token}}

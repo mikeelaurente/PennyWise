@@ -94,15 +94,24 @@
 
 ## Transactions
 
-- [ ] Create income transaction
-- [ ] Create expense transaction
+- [x] Create income transaction
+  - [x] `POST /api/transactions` with `type: income`
+- [x] Create expense transaction
+  - [x] `POST /api/transactions` with `type: expense`
 - [ ] Create transfer
-- [ ] View transaction
-- [ ] Update transaction
-- [ ] Delete transaction
-- [ ] List transaction history
-- [ ] Search and filter transactions
-- [ ] Validate account and Space membership
+  - Deferred until the source/destination representation is defined.
+- [x] View transaction
+  - [x] `GET /api/transactions/:id`
+- [x] Update transaction
+  - [x] `PATCH /api/transactions/:id` (income and expense)
+- [x] Delete transaction
+  - [x] `DELETE /api/transactions/:id` (income and expense)
+- [x] List transaction history
+  - [x] `GET /api/transactions?spaceId=:spaceId`
+- [x] Search and filter transactions
+  - Description search, account, category, type, inclusive date range, and pagination.
+- [x] Validate account and Space membership
+  - Account ownership, space association, and matching category space/type.
 
 ## Budgets
 
